@@ -18,7 +18,12 @@ export function TaskMapper() {
     }
   }
 
+  function fromUpdateTaskRequestToTask(task, updateTask) {
+    return { ...task, ...updateTask }
+  }
+
   return {
     fromCreateTaskRequestToTask,
+    fromUpdateTaskRequestToTask,
   }
 }

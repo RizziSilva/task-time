@@ -17,6 +17,19 @@ export function TaskController() {
     }
   })
 
+  taskController.put('/task/:taskId', async (req, res, next) => {
+    try {
+      const taskRequest = req.body
+      const { taskId } = req.params
+
+      await taskService.updateTask(taskRequest, taskId)
+
+      res.sendStatus(StatusCodes.OK)
+    } catch (error) {
+      next(error)
+    }
+  })
+
   taskController.get('/task/:userId', async (req, res, next) => {
     try {
       const { userId } = req.params

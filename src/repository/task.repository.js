@@ -17,6 +17,31 @@ export function TaskRepository() {
     }
   }
 
+  async function getTaskById(taskId) {
+    try {
+      const query = 'SELECT * FROM task WHERE id = ? '
+      const params = [taskId]
+
+      return await dataBase.parameterQuery(query, params)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function updateTask(updateTaskRequest, taskId) {
+    try {
+      const { title, description, link } = updateTaskRequest
+      const query =
+        'UPDATE task SET title = ?, description = ?, link = ? ' +
+        'WHERE id = ? '
+      const params = [title, description, link, taskId]
+
+      await dataBase.parameterQuery(query, params)
+    } catch (error) {
+      throw error
+    }
+  }
+
   async function getAllTasksByUser(userId) {
     try {
       const query = 'SELECT * FROM task WHERE idUser = ?'
@@ -31,5 +56,7 @@ export function TaskRepository() {
   return {
     getAllTasksByUser,
     createTask,
+    getTaskById,
+    updateTask,
   }
 }
