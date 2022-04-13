@@ -17,7 +17,20 @@ export function TaskValidator() {
     }
   }
 
+  function validateUpdateTask(updateTaskRequest, taskId) {
+    const { title } = updateTaskRequest
+
+    if (!title) {
+      throw new Error('A task deve possuir um titulo.')
+    }
+
+    if (!taskId) {
+      throw new Error('Deve ser informado o id da task.')
+    }
+  }
+
   return {
     validateCreateTask,
+    validateUpdateTask,
   }
 }

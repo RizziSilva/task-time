@@ -30,8 +30,36 @@ export function TaskService() {
     }
   }
 
+  async function updateTask(updateTaskRequest, taskId) {
+    try {
+      taskValidator.validateUpdateTask(updateTaskRequest, taskId)
+      const task = await getTaskById(taskId)
+
+      if (!task.length) throw new Error('Task não encontrada.')
+
+      const updatetask = taskMapper.fromUpdateTaskRequestToTask(
+        task[0],
+        updateTaskRequest,
+      )
+
+      await taskRepository.updateTask(updatetask, taskId)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function getTaskById(taskId) {
+    try {
+      return taskRepository.getTaskById(taskId)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return {
     getAllTasksByUser,
     createTask,
+    updateTask,
+    getTaskById,
   }
 }
