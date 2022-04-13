@@ -32,7 +32,7 @@ export function TaskService() {
 
   async function updateTask(updateTaskRequest, taskId) {
     try {
-      taskValidator.validateUpdateTask(updateTaskRequest, taskId)
+      taskValidator.validateUpdateTask(taskId)
       const task = await getTaskById(taskId)
 
       if (!task.length) throw new Error('Task não encontrada.')
