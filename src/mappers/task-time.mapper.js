@@ -7,5 +7,15 @@ export function TaskTimeMapper() {
     return { createdAt, endedAt, initiatedAt, updatedAt }
   }
 
-  return { fromCreateTaskTimeRequestToTaskTime }
+  function fromUpdateTaskTimeRequestToTaskTime(updateTaskTimeRequest) {
+    const { endedAt, initiatedAt } = updateTaskTimeRequest
+    const updatedAt = new Date().toLocaleString()
+
+    return { endedAt, initiatedAt, updatedAt }
+  }
+
+  return {
+    fromCreateTaskTimeRequestToTaskTime,
+    fromUpdateTaskTimeRequestToTaskTime,
+  }
 }

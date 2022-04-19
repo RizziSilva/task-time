@@ -21,5 +21,18 @@ export function TaskTimeController() {
     }
   })
 
+  taskTimeController.put('/task-time/:idTaskTime', async (req, res, next) => {
+    try {
+      const taskTimeRequest = req.body
+      const { idTaskTime } = req.params
+
+      await taskTimeService.updateTaskTime(taskTimeRequest, idTaskTime)
+
+      res.sendStatus(StatusCodes.OK)
+    } catch (error) {
+      next(error)
+    }
+  })
+
   return { taskTimeController }
 }

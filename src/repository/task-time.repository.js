@@ -13,5 +13,15 @@ export function TaskTimeRepository() {
     await dataBase.parameterQuery(query, params)
   }
 
-  return { createTaskTime }
+  async function updateTaskTime(taskTime, idTaskTime) {
+    const { initiatedAt, endedAt, updatedAt } = taskTime
+    const query =
+      'UPDATE taskTime SET endedAt = ?, updatedAt = ?, initiatedAt = ? WHERE id = ? '
+
+    const params = [endedAt, updatedAt, initiatedAt, idTaskTime]
+
+    await dataBase.parameterQuery(query, params)
+  }
+
+  return { createTaskTime, updateTaskTime }
 }
