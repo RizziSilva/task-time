@@ -8,15 +8,11 @@ export function TaskTimeService() {
   const taskTimeRepository = TaskTimeRepository()
 
   async function createTaskTime(taskTimeRequest, idTask) {
-    try {
-      taskTimeValidator.validateCreateTaskTime(taskTimeRequest, idTask)
-      const taskTime =
-        taskTimeMapper.fromCreateTaskTimeRequestToTaskTime(taskTimeRequest)
+    taskTimeValidator.validateCreateTaskTime(taskTimeRequest, idTask)
+    const taskTime =
+      taskTimeMapper.fromCreateTaskTimeRequestToTaskTime(taskTimeRequest)
 
-      await taskTimeRepository.createTaskTime(taskTime, idTask)
-    } catch (error) {
-      throw error
-    }
+    await taskTimeRepository.createTaskTime(taskTime, idTask)
   }
 
   return { createTaskTime }
