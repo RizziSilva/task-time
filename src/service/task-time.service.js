@@ -25,5 +25,11 @@ export function TaskTimeService() {
     await taskTimeRepository.updateTaskTime(taskTime, idTaskTime)
   }
 
-  return { createTaskTime, updateTaskTime }
+  async function deleteTaskTime(idTaskTime) {
+    taskTimeValidator.validateDeleteTaskTime(idTaskTime)
+
+    await taskTimeRepository.deleteTaskTime(idTaskTime)
+  }
+
+  return { createTaskTime, updateTaskTime, deleteTaskTime }
 }

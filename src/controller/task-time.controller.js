@@ -34,5 +34,20 @@ export function TaskTimeController() {
     }
   })
 
+  taskTimeController.delete(
+    '/task-time/:idTaskTime',
+    async (req, res, next) => {
+      try {
+        const { idTaskTime } = req.params
+
+        await taskTimeService.deleteTaskTime(idTaskTime)
+
+        res.sendStatus(StatusCodes.OK)
+      } catch (error) {
+        next(error)
+      }
+    },
+  )
+
   return { taskTimeController }
 }
