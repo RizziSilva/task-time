@@ -4,53 +4,36 @@ export function TaskRepository() {
   const dataBase = DataBase()
 
   async function createTask(taskRequest) {
-    try {
-      const { title, description, link, idUser } = taskRequest
-      const query =
-        'INSERT INTO task(idUSer, title, description, link) ' +
-        'VALUES (?, ?, ?, ?) '
-      const params = [idUser, title, description, link]
+    const { title, description, link, idUser } = taskRequest
+    const query =
+      'INSERT INTO task(idUSer, title, description, link) ' +
+      'VALUES (?, ?, ?, ?) '
+    const params = [idUser, title, description, link]
 
-      return await dataBase.parameterQuery(query, params)
-    } catch (error) {
-      throw error
-    }
+    return await dataBase.parameterQuery(query, params)
   }
 
   async function getTaskById(taskId) {
-    try {
-      const query = 'SELECT * FROM task WHERE id = ? '
-      const params = [taskId]
+    const query = 'SELECT * FROM task WHERE id = ? '
+    const params = [taskId]
 
-      return await dataBase.parameterQuery(query, params)
-    } catch (error) {
-      throw error
-    }
+    return await dataBase.parameterQuery(query, params)
   }
 
   async function updateTask(updateTaskRequest, taskId) {
-    try {
-      const { title, description, link } = updateTaskRequest
-      const query =
-        'UPDATE task SET title = ?, description = ?, link = ? ' +
-        'WHERE id = ? '
-      const params = [title, description, link, taskId]
+    const { title, description, link } = updateTaskRequest
+    const query =
+      'UPDATE task SET title = ?, description = ?, link = ? ' + 'WHERE id = ? '
+    const params = [title, description, link, taskId]
 
-      await dataBase.parameterQuery(query, params)
-    } catch (error) {
-      throw error
-    }
+    await dataBase.parameterQuery(query, params)
   }
 
   async function getAllTasksByUser(userId) {
-    try {
-      const query = 'SELECT * FROM task WHERE idUser = ?'
-      const params = [userId]
+    const query = 'SELECT * FROM task WHERE idUser = ?'
+    const params = [userId]
 
-      return await dataBase.parameterQuery(query, params)
-    } catch (error) {
-      throw error
-    }
+    return await dataBase.parameterQuery(query, params)
   }
 
   return {
