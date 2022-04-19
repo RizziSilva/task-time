@@ -23,7 +23,7 @@ export function TaskRepository() {
   async function updateTask(updateTaskRequest, taskId) {
     const { title, description, link } = updateTaskRequest
     const query =
-      'UPDATE task SET title = ?, description = ?, link = ? ' + 'WHERE id = ? '
+      'UPDATE task SET title = ?, description = ?, link = ? WHERE id = ? '
     const params = [title, description, link, taskId]
 
     await dataBase.parameterQuery(query, params)

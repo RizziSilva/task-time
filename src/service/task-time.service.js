@@ -15,5 +15,15 @@ export function TaskTimeService() {
     await taskTimeRepository.createTaskTime(taskTime, idTask)
   }
 
-  return { createTaskTime }
+  async function updateTaskTime(updateTaskTimeRequest, idTaskTime) {
+    taskTimeValidator.validateUpdateTaskTime(updateTaskTimeRequest, idTaskTime)
+
+    const taskTime = taskTimeMapper.fromUpdateTaskTimeRequestToTaskTime(
+      updateTaskTimeRequest,
+    )
+
+    await taskTimeRepository.updateTaskTime(taskTime, idTaskTime)
+  }
+
+  return { createTaskTime, updateTaskTime }
 }
