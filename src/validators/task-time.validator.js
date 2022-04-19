@@ -28,8 +28,14 @@ export function TaskTimeValidator() {
       throw new Error('O taskTime precisa ter um tempo de fim(endedAt).')
   }
 
+  function validateDeleteTaskTime(idTaskTime) {
+    if (!idTaskTime)
+      throw new Error('deve ser informado o id da taskTime(idTaskTime)')
+  }
+
   return {
     validateCreateTaskTime,
     validateUpdateTaskTime,
+    validateDeleteTaskTime,
   }
 }

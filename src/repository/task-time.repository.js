@@ -23,5 +23,12 @@ export function TaskTimeRepository() {
     await dataBase.parameterQuery(query, params)
   }
 
-  return { createTaskTime, updateTaskTime }
+  async function deleteTaskTime(idTaskTime) {
+    const query = 'DELETE FROM taskTime WHERE id = ?'
+    const params = [idTaskTime]
+
+    await dataBase.parameterQuery(query, params)
+  }
+
+  return { createTaskTime, updateTaskTime, deleteTaskTime }
 }
