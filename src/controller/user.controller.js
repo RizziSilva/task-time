@@ -3,10 +3,10 @@ import { StatusCodes } from 'http-status-codes'
 import { UserService } from '../service'
 
 export function UserController() {
-  const taskTimeController = Router()
+  const userController = Router()
   const userService = UserService()
 
-  taskTimeController.post('/user/create', async (req, res, next) => {
+  userController.post('/user/create', async (req, res, next) => {
     try {
       const userRequest = req.body
 
@@ -18,5 +18,14 @@ export function UserController() {
     }
   })
 
-  return { taskTimeController }
+  userController.get('/user/login', async (req, res, next) => {
+    try {
+      const userLoginRequest = req.params
+      const foundUser = await userService
+    } catch (error) {
+      next(error)
+    }
+  })
+
+  return { userController }
 }
