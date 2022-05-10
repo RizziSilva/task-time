@@ -33,11 +33,14 @@ export function TaskController() {
   taskController.get('/task/:userId', async (req, res, next) => {
     try {
       const { userId } = req.params
-      const result = await taskService.getAllTasksByUser(userId)
+      const { page, limit } = req.query
+      const result = await taskService.getAllTasksByUserPaginated({
+        userId,
+        page,
+        limit,
+      })
 
-      result.length
-        ? res.status(StatusCodes.OK).json(result)
-        : res.status(StatusCodes.NO_CONTENT)
+      res.status(StatusCodes.OK).json(result)
     } catch (error) {
       next(error)
     }

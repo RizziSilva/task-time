@@ -29,8 +29,14 @@ export function TaskValidator() {
     }
   }
 
+  function validateGetTasks(userId) {
+    if (!userId)
+      throw new Error('Deve ser informado o id do usuário vinculado a task')
+  }
+
   return {
     validateCreateTask,
     validateUpdateTask,
+    validateGetTasks,
   }
 }

@@ -1,6 +1,7 @@
 import { TaskRepository } from '../repository'
 import { TaskValidator } from '../validators'
 import { TaskMapper } from '../mappers'
+import { Pagination } from '../utils'
 import { TaskTimeService } from '.'
 
 export function TaskService() {
@@ -8,9 +9,24 @@ export function TaskService() {
   const taskValidator = TaskValidator()
   const taskMapper = TaskMapper()
   const taskTimeService = TaskTimeService()
+  const paginationUtil = Pagination()
 
-  async function getAllTasksByUser(userId) {
-    return await taskRepository.getAllTasksByUser(userId)
+  async function getAllTasksByUserPaginated(request) {
+    const { userId, page, limit } = request
+
+    taskValidator.validateGetTasks(userId)
+
+    const offSet = paginationUtil.getOffSet(page, limit)
+    const result = await taskRepository.getAllTasksByUser(userId, offSet, limit)
+    const totalNumberOfTaks = await taskRepository.countAllTasksByUserId(userId)
+    const response = paginationUtil.buildResponseWithPaginationInfo(
+      result,
+      page,
+      limit,
+      totalNumberOfTaks[0].quantityOfTasks,
+    )
+
+    return response
   }
 
   async function createTask(taskRequest) {
@@ -41,7 +57,7 @@ export function TaskService() {
   }
 
   return {
-    getAllTasksByUser,
+    getAllTasksByUserPaginated,
     createTask,
     updateTask,
     getTaskById,
