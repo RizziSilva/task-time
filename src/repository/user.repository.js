@@ -12,5 +12,13 @@ export function UserRepository() {
     return dataBase.parameterQuery(query, params)
   }
 
-  return { createUser }
+  async function findUserByEmail(email) {
+    const query = 'SELECT * FROM user WHERE email = ?'
+
+    const params = [email]
+
+    return dataBase.parameterQuery(query, params)
+  }
+
+  return { createUser, findUserByEmail }
 }

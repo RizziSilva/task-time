@@ -17,5 +17,10 @@ export function UserValidator() {
     if (!password) throw new Error('Deve ser informado a senha do usuário.')
   }
 
-  return { validateCreateUser, validateUserLogin }
+  function validateUserCredentials(password, requestPassword) {
+    if (password !== requestPassword)
+      throw new Error('Login ou senha inválidos.')
+  }
+
+  return { validateCreateUser, validateUserLogin, validateUserCredentials }
 }

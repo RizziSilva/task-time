@@ -18,10 +18,12 @@ export function UserController() {
     }
   })
 
-  userController.get('/user/login', async (req, res, next) => {
+  userController.post('/user/login', async (req, res, next) => {
     try {
-      const userLoginRequest = req.params
-      const foundUser = await userService
+      const userLoginRequest = req.body
+      const result = await userService.getUserLogin(userLoginRequest)
+
+      res.status(StatusCodes.OK).json(result)
     } catch (error) {
       next(error)
     }
