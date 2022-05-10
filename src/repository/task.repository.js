@@ -29,8 +29,17 @@ export function TaskRepository() {
     await dataBase.parameterQuery(query, params)
   }
 
-  async function getAllTasksByUser(userId) {
-    const query = 'SELECT * FROM task WHERE idUser = ?'
+  async function getAllTasksByUser(userId, offSet, limit) {
+    const query =
+      'SELECT * FROM task WHERE idUser = ? ORDER BY created_at LIMIT ? OFFSET ?'
+    const params = [userId, limit, offSet]
+
+    return await dataBase.parameterQuery(query, params)
+  }
+
+  async function countAllTasksByUserId(userId) {
+    const query =
+      'SELECT COUNT(*) as quantityOfTasks FROM task WHERE idUser = ?'
     const params = [userId]
 
     return await dataBase.parameterQuery(query, params)
@@ -41,5 +50,6 @@ export function TaskRepository() {
     createTask,
     getTaskById,
     updateTask,
+    countAllTasksByUserId,
   }
 }
