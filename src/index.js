@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import './config/environment.config'
 import { ErrorMiddleware } from './middlewares'
 import { ConfigControllers } from './config'
@@ -7,6 +8,7 @@ import { ConfigControllers } from './config'
 const app = express()
 const errorMiddleware = ErrorMiddleware()
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
