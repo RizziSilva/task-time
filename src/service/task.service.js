@@ -36,6 +36,8 @@ export function TaskService() {
 
     const createdTask = await taskRepository.createTask(taskEntity)
     taskTimeService.createTaskTime(taskRequest, createdTask.insertId)
+
+    return createdTask.insertId
   }
 
   async function updateTask(updateTaskRequest, taskId) {
