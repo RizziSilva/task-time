@@ -9,9 +9,9 @@ export function TaskController() {
   taskController.post('/task/create', async (req, res, next) => {
     try {
       const taskRequest = req.body
-      await taskService.createTask(taskRequest)
+      const result = await taskService.createTask(taskRequest)
 
-      res.sendStatus(StatusCodes.OK)
+      res.status(StatusCodes.OK).json(result)
     } catch (error) {
       next(error)
     }
