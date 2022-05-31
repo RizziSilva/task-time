@@ -33,9 +33,11 @@ export function TaskService() {
     taskValidator.validateCreateTask(taskRequest)
 
     const taskEntity = taskMapper.fromCreateTaskRequestToTask(taskRequest)
-    const createTask = await taskRepository.createTask(taskEntity)
 
-    return createTask.insertId
+    const createdTask = await taskRepository.createTask(taskEntity)
+    taskTimeService.createTaskTime(taskRequest, createdTask.insertId)
+
+    return createdTask.insertId
   }
 
   async function updateTask(updateTaskRequest, taskId) {
