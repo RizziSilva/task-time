@@ -35,7 +35,7 @@ export function TaskService() {
     const taskEntity = taskMapper.fromCreateTaskRequestToTask(taskRequest)
 
     const createdTask = await taskRepository.createTask(taskEntity)
-    taskTimeService.createTaskTime(taskRequest, createdTask.insertId)
+    await taskTimeService.createTaskTime(taskRequest, createdTask.insertId)
 
     return createdTask.insertId
   }
