@@ -4,11 +4,11 @@ export function TaskRepository() {
   const dataBase = DataBase()
 
   async function createTask(taskRequest) {
-    const { title, description, link, idUser } = taskRequest
+    const { title, description, link, idUser, createdAt } = taskRequest
     const query =
-      'INSERT INTO task(idUSer, title, description, link) ' +
-      'VALUES (?, ?, ?, ?) '
-    const params = [idUser, title, description, link]
+      'INSERT INTO task(idUSer, title, description, link, createdAt) ' +
+      'VALUES (?, ?, ?, ?, ?) '
+    const params = [idUser, title, description, link, createdAt]
 
     return await dataBase.parameterQuery(query, params)
   }

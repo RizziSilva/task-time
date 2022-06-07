@@ -1,8 +1,8 @@
 export function TaskMapper() {
   function fromCreateTaskRequestToTask(taskRequest) {
     const { title, description, link, idUser } = taskRequest
-    const createdAt = new Date()
-    const updatedAt = new Date()
+    const createdAt = new Date().toLocaleString()
+    const updatedAt = new Date().toLocaleString()
     const initiatedAt = new Date(taskRequest.initiatedAt)
     const endedAt = new Date(taskRequest.endedAt)
 
