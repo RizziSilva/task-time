@@ -31,7 +31,7 @@ export function TaskRepository() {
 
   async function getAllTasksByUser(userId, offSet, limit) {
     const query =
-      'SELECT * FROM task WHERE idUser = ? ORDER BY created_at LIMIT ? OFFSET ?'
+      'SELECT * FROM task WHERE idUser = ? ORDER BY createdAt LIMIT ? OFFSET ?'
     const params = [userId, limit, offSet]
 
     return await dataBase.parameterQuery(query, params)
