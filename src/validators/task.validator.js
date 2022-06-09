@@ -1,9 +1,5 @@
 export function TaskValidator() {
   function validateCreateTask(taskRequest) {
-    if (!taskRequest.title) {
-      throw new Error('A task deve possuir um titulo.')
-    }
-
     if (!taskRequest.idUser) {
       throw new Error('A task deve ter um usuário associado.')
     }
