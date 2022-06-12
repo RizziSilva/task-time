@@ -46,20 +46,19 @@ export function TaskRepository() {
   }
 
   async function getLastActivityDay(userId) {
-    const query = 'SELECT MAX(createdAt) FROM task WHERE idUser = ?'
+    const query = 'SELECT MAX(createdAt) as maxDate FROM task WHERE idUser = ?'
     const params = [userId]
 
     return await dataBase.parameterQuery(query, params)
   }
 
   async function getAllTaskAndTaskTimesByDay(request) {
-    const { userId, initialDate, endDate } = request
-    console.log({ userId, initialDate, endDate })
+    const { userId, day } = request
     const query =
       'SELECT t.id as taskId,	t.title, t.description, t.link, t.createdAt, tt.id as taskTimeId, tt.initiatedAt, tt.endedAt ' +
       'FROM task t INNER JOIN taskTime tt ON t.id = tt.idTask ' +
-      'WHERE t.createdAt BETWEEN ? AND ? AND t.idUser = ? ORDER BY t.createdAt'
-    const params = [initialDate, endDate, userId]
+      'WHERE t.createdAt = ? AND t.idUser = ? ORDER BY t.createdAt'
+    const params = [day, userId]
 
     return await dataBase.parameterQuery(query, params)
   }

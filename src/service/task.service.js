@@ -59,19 +59,24 @@ export function TaskService() {
     return taskRepository.getTaskById(taskId)
   }
 
-  async function getTaskByDayOnTheLastActivityDay(userId, day) {
-    taskValidator.validateGetTasks(userId)
+  async function getTaskByDayOnTheLastActivityDay(request) {
+    taskValidator.validateGetTasks(request.userId)
 
-    const lastActivityDay = await taskRepository.getLastActivityDay(userId)
-    const getDayTasksAndTaskTimesParams = taskMapper.fromDayToGetTasksByDay(
-      userId,
-      day,
-      lastActivityDay,
+    const lastActivityDay = await taskRepository.getLastActivityDay(
+      request.userId,
     )
+
+    const getDayTasksAndTaskTimesParams = taskMapper.fromDayToGetTasksByDay(
+      request.userId,
+      request.day,
+      lastActivityDay[0],
+    )
+    console.log(getDayTasksAndTaskTimesParams)
     const tasks = await taskRepository.getAllTaskAndTaskTimesByDay(
       getDayTasksAndTaskTimesParams,
     )
-    taskUtil.separeteTasksAndCalculateTime(tasks)
+
+    return taskUtil.separeteTasksAndCalculateTime(tasks)
   }
 
   return {
