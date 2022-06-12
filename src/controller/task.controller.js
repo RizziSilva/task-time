@@ -46,5 +46,20 @@ export function TaskController() {
     }
   })
 
+  taskController.get('/task/day/:userId', async (req, res, next) => {
+    try {
+      const { userId } = req.params
+      const { day } = req.query
+      const result = await taskService.getTaskByDayOnTheLastActivityDay({
+        userId,
+        day,
+      })
+
+      res.status(StatusCodes.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
   return { taskController }
 }

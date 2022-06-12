@@ -22,8 +22,15 @@ export function TaskMapper() {
     return { ...task, ...updateTask }
   }
 
+  function fromDayToGetTasksByDay(userId, day, lastActivityDay) {
+    const dayToUSe = day ? day : lastActivityDay.maxDate
+
+    return { day: dayToUSe, userId }
+  }
+
   return {
     fromCreateTaskRequestToTask,
     fromUpdateTaskRequestToTask,
+    fromDayToGetTasksByDay,
   }
 }
