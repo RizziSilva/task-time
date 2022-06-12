@@ -11,7 +11,13 @@ export function TaskUtil() {
   function separeteTasksAndCalculateTime(tasks) {
     const response = []
     tasks.forEach((task) => {
-      const { taskId: taskIdToFilter, title, description, link } = task
+      const {
+        taskId: taskIdToFilter,
+        title,
+        description,
+        link,
+        createdAt,
+      } = task
       const alreadyHasBuildThisResponse = response.some(
         (response) => response.taskId === taskIdToFilter,
       )
@@ -26,13 +32,34 @@ export function TaskUtil() {
           title,
           description,
           link,
+          createdAt,
           times: times,
         })
       }
     })
 
+    response.forEach((response) => {
+      let totalTime = 0
+
+      response.times.forEach(({ difference }) => {
+        totalTime = totalTime + difference
+      })
+
+      response.totalTime = totalTime
+    })
+
     return response
   }
 
-  return { separeteTasksAndCalculateTime }
+  function getDateAsString(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+  }
+
+  function getDayToRequestParameter(day) {
+    const today = new Date()
+    const requestDay = new Date(day)
+    return day ? getDateAsString(requestDay) : getDateAsString(today)
+  }
+
+  return { separeteTasksAndCalculateTime, getDayToRequestParameter }
 }

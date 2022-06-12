@@ -45,9 +45,10 @@ export function TaskRepository() {
     return await dataBase.parameterQuery(query, params)
   }
 
-  async function getLastActivityDay(userId) {
-    const query = 'SELECT MAX(createdAt) as maxDate FROM task WHERE idUser = ?'
-    const params = [userId]
+  async function getLastActivityDay(userId, lastDayUsed) {
+    const query =
+      'SELECT MAX(createdAt) as maxDate FROM task WHERE idUser = ? AND createdAt < ?'
+    const params = [userId, lastDayUsed]
 
     return await dataBase.parameterQuery(query, params)
   }
