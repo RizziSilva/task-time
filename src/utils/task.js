@@ -1,17 +1,18 @@
-export function TaskUtil() {
-  function buildResponseFromTask(tasks) {
-    return tasks.map((task) => {
-      const { initiatedAt, endedAt, taskTimeId } = task
-      const secondsBetween = (endedAt - initiatedAt) / 1000
+import { TaskTimeUtil } from './task-time.util'
 
-      return { initiatedAt, endedAt, taskTimeId, difference: secondsBetween }
-    })
-  }
+export function TaskUtil() {
+  const { buildResponseFromTask, calculateTimeDifference } = TaskTimeUtil()
 
   function separeteTasksAndCalculateTime(tasks) {
     const response = []
     tasks.forEach((task) => {
-      const { taskId: taskIdToFilter, title, description, link } = task
+      const {
+        taskId: taskIdToFilter,
+        title,
+        description,
+        link,
+        createdAt,
+      } = task
       const alreadyHasBuildThisResponse = response.some(
         (response) => response.taskId === taskIdToFilter,
       )
@@ -19,20 +20,42 @@ export function TaskUtil() {
         const allTaskTaskTimes = tasks.filter(
           ({ taskId }) => taskId === taskIdToFilter,
         )
-        const times = buildResponseFromTask(allTaskTaskTimes)
+        const times = buildResponseFromTask(allTaskTaskTimes, taskIdToFilter)
 
         response.push({
           taskId: taskIdToFilter,
           title,
           description,
           link,
+          createdAt,
           times: times,
         })
       }
     })
 
+    response.forEach((response) => {
+      const totalTime = calculateTimeDifference(response.times)
+
+      response.totalTime = totalTime
+    })
+
     return response
   }
 
-  return { separeteTasksAndCalculateTime }
+  function getDateAsString(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+  }
+
+  function getDayToRequestParameter(day) {
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const requestDay = new Date(day)
+    return day ? getDateAsString(requestDay) : getDateAsString(tomorrow)
+  }
+
+  return {
+    separeteTasksAndCalculateTime,
+    getDayToRequestParameter,
+  }
 }

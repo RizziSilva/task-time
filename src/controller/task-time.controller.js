@@ -10,12 +10,12 @@ export function TaskTimeController() {
     try {
       const taskTimeRequest = req.body
 
-      await taskTimeService.createTaskTime(
+      const result = await taskTimeService.createTaskTime(
         taskTimeRequest,
         taskTimeRequest.idTask,
       )
 
-      res.sendStatus(StatusCodes.OK)
+      res.status(StatusCodes.OK).json(result)
     } catch (error) {
       next(error)
     }

@@ -1,4 +1,8 @@
+import { TaskTimeUtil } from '../utils'
+
 export function TaskTimeMapper() {
+  const { buildResponseFromTask } = TaskTimeUtil()
+
   function fromCreateTaskTimeRequestToTaskTime(taskTimeRequest) {
     const { endedAt, initiatedAt } = taskTimeRequest
     const localeEndedAt = new Date(endedAt).toLocaleString()
@@ -23,8 +27,13 @@ export function TaskTimeMapper() {
     return { endedAt: localeEndedAt, initiatedAt: localeInitiatedAt, updatedAt }
   }
 
+  function fromTaskTimeToTaskTimeResponse(taskTimeId, taskTime, idTask) {
+    return buildResponseFromTask([{ ...taskTime, taskTimeId }], idTask)
+  }
+
   return {
     fromCreateTaskTimeRequestToTaskTime,
     fromUpdateTaskTimeRequestToTaskTime,
+    fromTaskTimeToTaskTimeResponse,
   }
 }

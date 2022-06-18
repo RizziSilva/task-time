@@ -1,4 +1,8 @@
+import { TaskTimeUtil } from '../utils'
+
 export function TaskMapper() {
+  const { calculateTimeDifference } = TaskTimeUtil()
+
   function fromCreateTaskRequestToTask(taskRequest) {
     const { title, description, link, idUser } = taskRequest
     const createdAt = new Date().toLocaleString()
@@ -22,15 +26,29 @@ export function TaskMapper() {
     return { ...task, ...updateTask }
   }
 
-  function fromDayToGetTasksByDay(userId, day, lastActivityDay) {
-    const dayToUSe = day ? day : lastActivityDay.maxDate
+  function fromDayToGetTasksByDay(userId, lastActivityDay) {
+    return { day: lastActivityDay.maxDate, userId }
+  }
 
-    return { day: dayToUSe, userId }
+  function fromTaskCreateToTaskResponse(task, taskId, taskTime) {
+    const { title, description, link, createdAt } = task
+    const response = {
+      taskId,
+      title,
+      description,
+      link,
+      createdAt,
+      times: taskTime,
+    }
+    response.totalTime = calculateTimeDifference(response.times)
+
+    return response
   }
 
   return {
     fromCreateTaskRequestToTask,
     fromUpdateTaskRequestToTask,
     fromDayToGetTasksByDay,
+    fromTaskCreateToTaskResponse,
   }
 }

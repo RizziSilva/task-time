@@ -12,7 +12,16 @@ export function TaskTimeService() {
     const taskTime =
       taskTimeMapper.fromCreateTaskTimeRequestToTaskTime(taskTimeRequest)
 
-    await taskTimeRepository.createTaskTime(taskTime, idTask)
+    const createdTaskTime = await taskTimeRepository.createTaskTime(
+      taskTime,
+      idTask,
+    )
+
+    return taskTimeMapper.fromTaskTimeToTaskTimeResponse(
+      createdTaskTime.insertId,
+      taskTime,
+      idTask,
+    )
   }
 
   async function updateTaskTime(updateTaskTimeRequest, idTaskTime) {
