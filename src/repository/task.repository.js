@@ -58,7 +58,7 @@ export function TaskRepository() {
     const query =
       'SELECT t.id as taskId,	t.title, t.description, t.link, t.createdAt, tt.id as taskTimeId, tt.initiatedAt, tt.endedAt ' +
       'FROM task t INNER JOIN taskTime tt ON t.id = tt.idTask ' +
-      'WHERE t.createdAt = ? AND t.idUser = ? ORDER BY t.createdAt'
+      'WHERE t.createdAt = ? AND t.idUser = ? ORDER BY tt.updatedAt DESC'
     const params = [day, userId]
 
     return await dataBase.parameterQuery(query, params)

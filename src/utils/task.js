@@ -1,12 +1,7 @@
-export function TaskUtil() {
-  function buildResponseFromTask(tasks) {
-    return tasks.map((task) => {
-      const { initiatedAt, endedAt, taskTimeId } = task
-      const secondsBetween = (endedAt - initiatedAt) / 1000
+import { TaskTimeUtil } from './task-time.util'
 
-      return { initiatedAt, endedAt, taskTimeId, difference: secondsBetween }
-    })
-  }
+export function TaskUtil() {
+  const { buildResponseFromTask, calculateTimeDifference } = TaskTimeUtil()
 
   function separeteTasksAndCalculateTime(tasks) {
     const response = []
@@ -25,7 +20,7 @@ export function TaskUtil() {
         const allTaskTaskTimes = tasks.filter(
           ({ taskId }) => taskId === taskIdToFilter,
         )
-        const times = buildResponseFromTask(allTaskTaskTimes)
+        const times = buildResponseFromTask(allTaskTaskTimes, taskIdToFilter)
 
         response.push({
           taskId: taskIdToFilter,
@@ -39,11 +34,7 @@ export function TaskUtil() {
     })
 
     response.forEach((response) => {
-      let totalTime = 0
-
-      response.times.forEach(({ difference }) => {
-        totalTime = totalTime + difference
-      })
+      const totalTime = calculateTimeDifference(response.times)
 
       response.totalTime = totalTime
     })
@@ -56,10 +47,15 @@ export function TaskUtil() {
   }
 
   function getDayToRequestParameter(day) {
-    const today = new Date()
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
     const requestDay = new Date(day)
-    return day ? getDateAsString(requestDay) : getDateAsString(today)
+    return day ? getDateAsString(requestDay) : getDateAsString(tomorrow)
   }
 
-  return { separeteTasksAndCalculateTime, getDayToRequestParameter }
+  return {
+    separeteTasksAndCalculateTime,
+    getDayToRequestParameter,
+  }
 }
